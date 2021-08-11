@@ -76,9 +76,9 @@ def make_prediction(net, layer_names, labels, image, confidence, threshold):
     return boxes, confidences, classIDs, idxs
 
 if __name__ == '__main__':
-    confidence=0.5      # Minimum confidence for a box to be detected.
-    threshold = 0.3     # Threshold for Non-Max Suppression
-    brightness = 1
+    confidence = 0.5      # Minimum confidence for a box to be detected.
+    threshold  = 0.3      # Threshold for Non-Max Suppression
+    brightness = 1        # internal rae brighness increase 
 
     # the opencv version
     print("OpenCV version: "+ cv2.__version__)
