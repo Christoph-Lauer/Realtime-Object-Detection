@@ -5,4 +5,4 @@ This is a very small Python raltime object detection implementation tested on ma
 ![alt text](demo.png)
 
 Start with: `python RealTimeObjectDetection.py`
-The RTOD uses Darknet, Yolo and OpenCV. The only Library you have to be installed is opencv-python.
+The RTOD uses Darknet, Yolo and OpenCV. The only Library you have to be installed on your computer is opencv-python.
