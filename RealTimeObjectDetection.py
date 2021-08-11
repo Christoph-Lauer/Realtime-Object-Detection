@@ -80,6 +80,9 @@ if __name__ == '__main__':
     threshold = 0.3     # Threshold for Non-Max Suppression
     brightness = 1
 
+    # the opencv version
+    print("OpenCV version: "+ cv2.__version__)
+
     # Get the labels
     labels = open('model/coco.names').read().strip().split('\n')
     # Create a list of colors for the labels
@@ -89,6 +92,8 @@ if __name__ == '__main__':
     # Get the ouput layer names
     layer_names = net.getLayerNames()
     layer_names = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+    # OPTIONALLY show the net structure as GRAPHVIS
+    #print(net.dump())
         
 
     ### CAPTURE LOOP FOR THE CAMERA
@@ -116,7 +121,7 @@ if __name__ == '__main__':
         image = draw_bounding_boxes(image, boxes, confidences, classIDs, idxs, colors)
         ### TEXT
         h,w,l = image.shape
-        cv2.putText(image, "fps:" + str(fps), (10, h-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 1)
+        cv2.putText(image, "fps:" + str(fps) + " (press Q key to quit)", (10, h-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 1)
         ### SHOW IMAGE
         cv2.imshow('YOLO Object Detection', image)
         ### Q Key for Quit
