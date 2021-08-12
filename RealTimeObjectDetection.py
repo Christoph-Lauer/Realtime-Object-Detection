@@ -22,6 +22,7 @@ import cv2
 import os
 import time
 
+
 def extract_boxes_confidences_classids(outputs, confidence, width, height):
     boxes = []
     confidences = []
@@ -66,7 +67,7 @@ def draw_bounding_boxes(image, boxes, confidences, classIDs, idxs, colors):
 def make_prediction(net, layer_names, labels, image, confidence, threshold):
     height, width = image.shape[:2]
     # Create a blob and pass it through the model
-    blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416), swapRB=True, crop=False)
+    blob = cv2.dnn.blobFromImage(image, 1/255.0, (416, 416), swapRB=True, crop=False)
     net.setInput(blob)
     outputs = net.forward(layer_names)
     # Extract bounding boxes, confidences and classIDs
@@ -75,14 +76,14 @@ def make_prediction(net, layer_names, labels, image, confidence, threshold):
     idxs = cv2.dnn.NMSBoxes(boxes, confidences, confidence, threshold)
     return boxes, confidences, classIDs, idxs
 
+
 if __name__ == '__main__':
     confidence = 0.5      # Minimum confidence for a box to be detected.
-    threshold  = 0.3      # Threshold for Non-Max Suppression
+    threshold  = 0.5      # Threshold for Non-Max Suppression
     brightness = 1        # internal rae brighness increase 
 
     # the opencv version
     print("OpenCV version: "+ cv2.__version__)
-
     # Get the labels
     labels = open('model/coco.names').read().strip().split('\n')
     # Create a list of colors for the labels
@@ -94,7 +95,6 @@ if __name__ == '__main__':
     layer_names = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
     # OPTIONALLY show the net structure as GRAPHVIS
     #print(net.dump())
-        
 
     ### CAPTURE LOOP FOR THE CAMERA
     cap = cv2.VideoCapture(0)
@@ -107,7 +107,7 @@ if __name__ == '__main__':
             print('Video file finished.')
             break
 
-        ### BRIGHTEN UP IMAGE
+        ### BRIGHTEN UP THE IMAGE
         #####################
         if (brightness != 1):
             hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV) #convert it to hsv
