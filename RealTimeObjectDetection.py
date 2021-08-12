@@ -76,11 +76,20 @@ def make_prediction(net, layer_names, labels, image, confidence, threshold):
     idxs = cv2.dnn.NMSBoxes(boxes, confidences, confidence, threshold)
     return boxes, confidences, classIDs, idxs
 
+def adjust_gamma(image, gamma=1.0):
+	# build a lookup table mapping the pixel values [0, 255] to
+	# their adjusted gamma values
+	invGamma = 1.0 / gamma
+	table = np.array([((i / 255.0) ** invGamma) * 255
+		for i in np.arange(0, 256)]).astype("uint8")
+	# apply gamma correction using the lookup table
+	return cv2.LUT(image, table)
 
 if __name__ == '__main__':
     confidence = 0.5      # Minimum confidence for a box to be detected.
     threshold  = 0.5      # Threshold for Non-Max Suppression
     brightness = 1        # internal rae brighness increase 
+    gamma = 3.0           # gamma correction
 
     # the opencv version
     print("OpenCV version: "+ cv2.__version__)
@@ -113,6 +122,7 @@ if __name__ == '__main__':
             hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV) #convert it to hsv
             hsv[:,:,2] *= brightness
             image = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
+        image = adjust_gamma(image, gamma)
         #####################
             
         ### DETECT
