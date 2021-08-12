@@ -17,7 +17,6 @@
 # @license      cle commercial license
 
 import numpy as np
-import argparse
 import cv2
 import os
 import time
@@ -78,8 +77,7 @@ def make_prediction(net, layer_names, labels, image, confidence, threshold):
 
 
 def adjust_gamma(image, gamma=1.0):
-	# build a lookup table mapping the pixel values [0, 255] to
-	# their adjusted gamma values
+	# build a lookup table mapping the pixel values [0, 255] to their adjusted gamma values
 	invGamma = 1.0 / gamma
 	table = np.array([((i / 255.0) ** invGamma) * 255
 		for i in np.arange(0, 256)]).astype("uint8")
@@ -124,12 +122,12 @@ if __name__ == '__main__':
             hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV) #convert it to hsv
             hsv[:,:,2] *= brightness
             image = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
-        image = adjust_gamma(image, gamma)
         #####################
+        image = adjust_gamma(image, gamma)
             
         ### DETECT
         boxes, confidences, classIDs, idxs = make_prediction(net, layer_names, labels, image, confidence, threshold)
-        ### DRAW BOX BOX
+        ### DRAW BOX BOXes
         image = draw_bounding_boxes(image, boxes, confidences, classIDs, idxs, colors)
         ### TEXT
         h,w,l = image.shape
